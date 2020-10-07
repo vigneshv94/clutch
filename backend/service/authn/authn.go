@@ -163,6 +163,11 @@ func (p *OIDCProvider) Exchange(ctx context.Context, code string) (*oauth2.Token
 		if _, err := p.cryptographer.Encrypt([]byte(token.RefreshToken)); err != nil {
 			return nil, err
 		}
+
+		_, err := p.queries.CreateOrUpdateUser(ctx, claims.Id)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	// Sign and issue token.

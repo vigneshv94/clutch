@@ -2,8 +2,11 @@
 
 package authndb
 
-import ()
+import (
+	"database/sql"
+)
 
 type Authn struct {
-	ID string
+	ID        string
+	UpdatedAt sql.NullTime
 }

@@ -7,23 +7,38 @@ import (
 	"context"
 )
 
-const listUserAuthn = `-- name: ListUserAuthn :many
-SELECT id FROM authn
+const createOrUpdateUser = `-- name: CreateOrUpdateUser :one
+INSERT INTO authn (id) VALUES ($1)
+ON CONFLICT (id)
+DO UPDATE SET
+    updated_at = NOW()
+RETURNING id, updated_at
 `
 
-func (q *Queries) ListUserAuthn(ctx context.Context) ([]string, error) {
+func (q *Queries) CreateOrUpdateUser(ctx context.Context, id string) (Authn, error) {
+	row := q.db.QueryRowContext(ctx, createOrUpdateUser, id)
+	var i Authn
+	err := row.Scan(&i.ID, &i.UpdatedAt)
+	return i, err
+}
+
+const listUserAuthn = `-- name: ListUserAuthn :many
+SELECT id, updated_at FROM authn
+`
+
+func (q *Queries) ListUserAuthn(ctx context.Context) ([]Authn, error) {
 	rows, err := q.db.QueryContext(ctx, listUserAuthn)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []string
+	var items []Authn
 	for rows.Next() {
-		var id string
-		if err := rows.Scan(&id); err != nil {
+		var i Authn
+		if err := rows.Scan(&i.ID, &i.UpdatedAt); err != nil {
 			return nil, err
 		}
-		items = append(items, id)
+		items = append(items, i)
 	}
 	if err := rows.Close(); err != nil {
 		return nil, err
