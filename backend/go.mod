@@ -25,7 +25,7 @@ require (
 	github.com/grpc-ecosystem/grpc-gateway v1.15.0
 	github.com/iancoleman/strcase v0.1.2
 	github.com/jhump/protoreflect v1.7.1-0.20200723220026-11eaaf73e0ec
-	github.com/kyleconroy/sqlc v1.5.0 // indirect
+	github.com/kyleconroy/sqlc v1.5.0
 	github.com/lib/pq v1.8.0
 	github.com/mitchellh/hashstructure v1.0.0
 	github.com/pingcap/log v0.0.0-20200828042413-fce0951f1463 // indirect
