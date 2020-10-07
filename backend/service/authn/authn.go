@@ -13,6 +13,9 @@ import (
 	"strings"
 	"time"
 
+	authndb "github.com/lyft/clutch/backend/service/authn/internal/db"
+	"github.com/lyft/clutch/backend/service/db/postgres"
+
 	"github.com/coreos/go-oidc"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/golang/protobuf/ptypes"
@@ -71,6 +74,7 @@ type OIDCProvider struct {
 	sessionSecret string
 
 	cryptographer *cryptographer
+	queries       *authndb.Queries
 
 	claimsFromOIDCToken ClaimsFromOIDCTokenFunc
 }
@@ -280,7 +284,21 @@ func NewProvider(config *authnv1.Config) (Provider, error) {
 		claimsFromOIDCToken: DefaultClaimsFromOIDCToken,
 	}
 
+	// Set-up storage for user's refresh and access tokens from issuer.
 	if config.Storage != nil {
+		// Get a handle to the database.
+		svc, ok := service.Registry["clutch.service.db.postgres"]
+		if !ok {
+			return nil, fmt.Errorf("no database configured")
+		}
+		pg, ok := svc.(postgres.Client)
+		if !ok {
+			return nil, fmt.Errorf("database was not the correct type")
+		}
+
+		p.queries = authndb.New(pg.DB())
+
+		// Encryption for sensitive tokens.
 		c, err := newCryptographer(config.Storage.EncryptionPassphrase)
 		if err != nil {
 			return nil, err
