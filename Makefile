@@ -75,6 +75,10 @@ backend-verify:
 backend-config-validation:
 	cd backend && go run main.go -validate -c clutch-config.yaml
 
+.PHONY: backend-sql
+backend-sql:
+	cd backend && ../tools/sqlc.sh generate
+
 .PHONY: frontend # Build production frontend assets.
 frontend: yarn-ensure
 	$(YARN) --cwd frontend install --frozen-lockfile && $(YARN) --cwd frontend build

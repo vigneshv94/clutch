@@ -1,1 +1,3 @@
-CREATE TABLE authn();
+CREATE TABLE authn(
+    id text PRIMARY KEY
+);

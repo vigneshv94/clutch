@@ -2,6 +2,6 @@ version: "1"
 packages:
   - name: "authn"
     path: "service/authn"
-    queries: "./sql/queries.sql"
-    schema: "./sql/migrations"
+    schema: "service/authn/sql/migrations"
+    queries: "service/authn/sql/queries.sql"
     engine: "postgresql"
