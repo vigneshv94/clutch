@@ -3324,6 +3324,9 @@ export namespace clutch {
 
                     /** TestConfig latency */
                     latency?: (clutch.chaos.serverexperimentation.v1.ILatencyFaultConfig|null);
+
+                    /** TestConfig trafficType */
+                    trafficType?: (clutch.chaos.serverexperimentation.v1.TrafficType|null);
                 }
 
                 /** Represents a TestConfig. */
@@ -3343,6 +3346,9 @@ export namespace clutch {
 
                     /** TestConfig latency. */
                     public latency?: (clutch.chaos.serverexperimentation.v1.ILatencyFaultConfig|null);
+
+                    /** TestConfig trafficType. */
+                    public trafficType: clutch.chaos.serverexperimentation.v1.TrafficType;
 
                     /** TestConfig target. */
                     public target?: "clusterPair";
@@ -3377,6 +3383,13 @@ export namespace clutch {
                      * @returns JSON object
                      */
                     public toJSON(): { [k: string]: any };
+                }
+
+                /** TrafficType enum. */
+                enum TrafficType {
+                    TRAFFICTYPE_UNSPECIFIED = 0,
+                    TRAFFICTYPE_INGRESS = 1,
+                    TRAFFICTYPE_EGRESS = 2
                 }
 
                 /** Properties of a ClusterPairTarget. */

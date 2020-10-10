@@ -43,6 +43,8 @@ func (m *TestConfig) Validate() error {
 		return nil
 	}
 
+	// no validation rules for TrafficType
+
 	switch m.Target.(type) {
 
 	case *TestConfig_ClusterPair:
