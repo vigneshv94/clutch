@@ -46,4 +46,32 @@ module.exports = {
       },
     },
   },
+  "@clutch-sh/experimentation": {
+    listExperiments: {
+      description: "Manage server and mobile fault injection experiments.",
+      trending: true,
+      componentProps: {
+        columns: [
+          { id: "target", header: "Target" },
+          { id: "start_time", header: "Start Time", sortable: true },
+          { id: "end_time", header: "End Time" },
+          { id: "status", header: "Status" },
+        ],
+        links: [
+          {
+            displayName: "Start Server Experiment",
+            path: "/server-experimentation/start",
+          },
+          {
+            displayName: "Start Mobile Experiment",
+            path: "/mobile-experimentation/start-experiment",
+          },
+        ],
+      },
+    },
+    viewExperimentRun: {},
+  },
+  "@clutch-sh/server-experimentation": {
+    startExperiment: {},
+  },
 };
